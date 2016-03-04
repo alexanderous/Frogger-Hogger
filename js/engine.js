@@ -80,7 +80,9 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
+        checkPickups();
         checkCollisions();
+
         canvas.height = 606 + (player.points * 83);
     }
 
@@ -108,13 +110,39 @@ var Engine = (function(global) {
             if(enemy.x + 75 > player.x && enemy.x - 30 <= player.x && enemy.y === player.y) {
                 player.x = 200;
                 player.points = 0;
+                player.pointsGrande = 0;
+                //enemy.x = 1000;
+                //player.wealth =
                 player.y = 386 + (player.points * 83);
 
+                  $(function() {
+                    $( "#gameover" ).dialog({
+                      modal: true,
+                      buttons: {
+                        Ok: function() {
+                          $( this ).dialog( "close" );
+                        }
+                      }
+                    });
+                  });
+                //document.querySelector("#wordbar2").innerHTML = "HIGH SCORE: " + this.highScore;
             };
         });
 
     };
 
+    function checkPickups() {
+            allGems.forEach(function(gem) {
+            //if(gem.y + 50 > player.y && gem.y - 30 <= player.y && gem.x === player.x) {
+            if(gem.x + 20 > player.x && gem.x - 50 < player.x && gem.y - 65 === player.y) {
+                //player.points
+                gem.x = -1400;
+                allEnemies[allGems.indexOf(gem) * 2].x = -900;
+                allEnemies[(allGems.indexOf(gem) * 2) + 1].x = -900;
+            };
+
+        });
+    };
 
 
     /* This function initially draws the "game level", it will then call
@@ -145,13 +173,15 @@ var Engine = (function(global) {
         // the array in the next chunk of code.
         for (original = 0; original < player.points; original++) {
             rowImages.splice(2, 0, 'images/stone-block.png');
-            allEnemies.push(new Enemy(-70, 220 + (83 * (player.points * 1))),
-                new Enemy(-70, 220 + (83 * (player.points * 1))));
+            allEnemies.push(new Enemy(-70, 220 + (83 * (player.points))),
+                new Enemy(-70, 220 + (83 * (player.points))));
+            allGems.push(new Gem(-70, 285 + (83 * (player.points))));
         };
 
         // This truncates the array to the expected length, so that there are
         // two bugs for every lane.
         allEnemies.length = 6 + (player.points * 2);
+        allGems.length = 3 + player.points;
 
 
         /* Loop through the number of rows and columns we've defined above
@@ -182,6 +212,11 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+
+        allGems.forEach(function(gem) {
+            gem.render();
+        });
+
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -191,9 +226,7 @@ var Engine = (function(global) {
         gem.render();
         }); */
 
-        allGems.forEach(function(gem) {
-            gem.render();
-        });
+
 
         player.render();
     }
@@ -216,9 +249,9 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/Gem Blue.png',
-        'images/Gem Orange.png',
-        'images/Gem Green.png'
+        //'images/Gem Blue.png',
+        'images/GemOrangeSmall.png'//,
+        //'images/Gem Green.png'
     ]);
     Resources.onReady(init);
 

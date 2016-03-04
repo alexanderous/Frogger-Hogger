@@ -11,8 +11,6 @@ var Enemy = function(x, y) {
     this.x = x;
     this.y = y;
     this.speed = Math.floor(Math.random() * (220 - 40) + 40);
-
-
     this.sprite = 'images/enemy-bug.png';
 
 };
@@ -49,14 +47,17 @@ var Player = function(x, y) {
     this.x = x;
     this.y = y;
     this.points = 0;
+    this.pointsGrande = this.points;
     this.highScore = 0;
 
 };
 
 Player.prototype.update = function() {
-    document.querySelector("#wordbar").innerHTML = "SCORE: " + this.points;
+    //this.score = this.points +
+    document.querySelector("#wordbar").innerHTML = "SCORE: " + this.pointsGrande;
     document.querySelector("#wordbar2").innerHTML = "HIGH SCORE: " + this.highScore;
-
+    //document.querySelector("#gameover").innerHTML = '<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"><p>Game Over!</p><p>Your Score: '
+    //+ this.pointsGrande + "</p><p>High Score: " + this.highScore + "</p>";
 };
 
 Player.prototype.render = function() {
@@ -79,7 +80,7 @@ var Gem = function(x, y) {
 
 
 Gem.prototype.render = function() {
-    this.sprite = 'images/Gem Orange.png';
+    this.sprite = 'images/GemOrangeSmall.png';
     /* var gemImages = [
             'images/Gem Blue.png',
             'images/Gem Green.png',
@@ -98,13 +99,28 @@ Gem.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    this.y += dt * this.speed;
-    if(this.y > 225) {
+    //this.x += dt * this.speed;
+    if (this.x > 445) {
+        this.east = false;
+    } else if (this.x < 15) {
+        this.east = true;
+    };
+
+    if (this.east === true) {
+        this.x += dt * this.speed;
+    } else {
+        this.x -= dt * this.speed;
+    };
+
+
+
+    /*this.y += dt * this.speed;
+    if(this.y > 300 + (player.points * 83)) {
         this.y = dt * this.speed;
     };
     if(this.y < 0) {
         this.y += dt * this.speed;
-    }
+    } */
 
 };
 // Now instantiate your objects.
@@ -134,9 +150,10 @@ BlueGem.prototype.render = function() {
 var allEnemies = [new Enemy(-70, 54), new Enemy(-70, 54), new Enemy(-70, 137),
                     new Enemy(-70, 137), new Enemy(-70, 220), new Enemy(-70, 220)];
 
+var allGems = [new Gem(-70, 119), new Gem(-70, 202), new Gem(-70, 285)];
 
-var allGems = [new Gem(-2, -70), new Gem(99, -70), new Gem(200, -70),
-                new Gem(301, -70), new Gem(402, -70)];
+/* var allGems = [new Gem(25, -70), new Gem(126, -70), new Gem(227, -70),
+                new Gem(328, -70), new Gem(429, -70)]; */
 //var blueGem = new Gem(-2, -70);
 //var allOrangeGems = [new Gem(99, -70), new Gem(200, -70), new Gem(301, -70)];
 //var greenGem = new Gem(402,-70);
@@ -188,9 +205,17 @@ Player.prototype.handleInput = function(key){
                 this.y = 386 + ((player.points + 1) * tileHeight);
                 this.x = 200;
                 this.points++;
-                if (this.points > this.highScore) {
-                    this.highScore = this.points;
+                this.pointsGrande = this.points * 100
+                if (this.pointsGrande > this.highScore) {
+                    this.highScore = this.pointsGrande;
                 }
+                // When the canvas expands downward, this makes
+                // the site scroll down to the bottom of the page
+                // for ease of view of the avatar (which returned
+                // to the start location).
+                $( "#scorenotice" ).fadeIn( "slow");
+                window.scrollTo(0,document.body.scrollHeight);
+
             } else {
                 this.y -= tileHeight;
             }
