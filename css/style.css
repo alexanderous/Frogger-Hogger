@@ -1,7 +1,8 @@
 body {
     text-align: center;
+	font-family: 'Slabo 27px', serif;
 }
 
-#scorenotice {
-	display: none;
+#gameover {
+	font-family: 'Slabo 27px', serif;
 }

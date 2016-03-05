@@ -108,25 +108,30 @@ var Engine = (function(global) {
     function checkCollisions() {
         allEnemies.forEach(function(enemy) {
             if(enemy.x + 75 > player.x && enemy.x - 30 <= player.x && enemy.y === player.y) {
+
+                $(function() {
+                    $( "#gameover" ).dialog({
+                        modal: true,
+                        /*buttons: {
+                            Ok: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        } */
+                    });
+                });
+
+                document.querySelector("#gameover").innerHTML =
+                '<h1>Game Over!</h1><img src="images/Star-cropped.png" alt="Star" height="80" width="80"><h3>Your Score: '
+                + player.pointsGrande + "</h3><p>High Score: " + player.highScore + "</p>";
                 player.x = 200;
+
                 player.points = 0;
                 player.pointsGrande = 0;
                 //enemy.x = 1000;
                 //player.wealth =
                 player.y = 386 + (player.points * 83);
 
-                  $(function() {
-                    $( "#gameover" ).dialog({
-                      modal: true,
-                      buttons: {
-                        Ok: function() {
-                          $( this ).dialog( "close" );
-                        }
-                      }
-                    });
-                  });
-                //document.querySelector("#wordbar2").innerHTML = "HIGH SCORE: " + this.highScore;
-            };
+         };
         });
 
     };

@@ -54,10 +54,9 @@ var Player = function(x, y) {
 
 Player.prototype.update = function() {
     //this.score = this.points +
-    document.querySelector("#wordbar").innerHTML = "SCORE: " + this.pointsGrande;
-    document.querySelector("#wordbar2").innerHTML = "HIGH SCORE: " + this.highScore;
-    //document.querySelector("#gameover").innerHTML = '<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"><p>Game Over!</p><p>Your Score: '
-    //+ this.pointsGrande + "</p><p>High Score: " + this.highScore + "</p>";
+    document.querySelector("#wordbar").innerHTML = "<h1>SCORE: " + this.pointsGrande + "</h1>";
+    document.querySelector("#wordbar2").innerHTML = "<h2>HIGH SCORE: " + this.highScore + "</h2>";
+
 };
 
 Player.prototype.render = function() {
