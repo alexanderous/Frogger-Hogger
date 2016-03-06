@@ -3,6 +3,8 @@ body {
 	font-family: 'Slabo 27px', serif;
 }
 
+/* Apparently, setting the body font as Slabo doesn't make all
+modal font Slabo. So it's defined here. */
 #gameover {
 	font-family: 'Slabo 27px', serif;
 }
