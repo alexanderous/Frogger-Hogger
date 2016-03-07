@@ -8,8 +8,6 @@
 
 <img src="images/bugs_and_gems_screenshot.png">
 
-///
-
 <h2>To Play the Game</h2>
 
 <p>The bugs will be moving endlessly to the right, and the gems will be sliding back and forth. You will play the game using the human-like avatar with antennae. By tapping on the keyboard up, down, left, and right arrow keys, you can manipulate the avatar into crossing the stone roads to the water. If you arrive at the water without bumping into any of the bugs, you score 100 points. At that point, another stone row is added to the game, and you will have to cross four rows before reaching the water. A new row and 100 points is added on every successful crossing.</p>
@@ -17,8 +15,6 @@
 <p>However, if your avatar bumps into a bug, the game is reset (to just three stone rows) and the score is also reset to zero. But!! If you collect a gem on any row, the bugs on that row disappear for several seconds, aiding you in your epic quest to cross the ever-expanding stone road.</p>
 
 <p>May the force be with you! And may the odds be ever in your favor!</p>
-
-///
 
 <h2>Notes</h2>
 
