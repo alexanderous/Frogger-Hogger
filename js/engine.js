@@ -137,7 +137,7 @@ var Engine = (function(global) {
             allEnemies.push(new Enemy(-70, 220 + (83 * (player.points))),
                 new Enemy(-70, 220 + (83 * (player.points))));
             allGems.push(new Gem(-70, 285 + (83 * (player.points))));
-        };
+        }
 
         /* These two lines truncate the array to the expected length, so that there are
          * two bugs and one gem for every lane.
@@ -208,4 +208,66 @@ var Engine = (function(global) {
      * from within the app.js files.
      */
     global.ctx = ctx;
+
+
+    // This function checks whether the player has collided with an enemy, and
+    // then outlines the consequences.
+    function checkCollisions() {
+        allEnemies.forEach(function(enemy) {
+            // This line defines what constitutes as a "collision." The actual images
+            // of the enemy and player both have quite large transparent backgrounds,
+            // so I added and subtracted some values to ensure that the images looked
+            // like they touched/collided.
+            if(enemy.x + 75 > player.x && enemy.x - 30 <= player.x && enemy.y ===
+                player.y) {
+
+                // This launches a modal with a "Game Over" notification.
+                $(function() {
+                    $( '#gameover' ).dialog({
+                        modal: true
+                    });
+                });
+
+                // This is the content within the "Game Over" modal.
+                document.querySelector('#gameover').innerHTML =
+                    '<h1>Game Over!</h1><img src="images/Star-cropped.png" alt="Star"' +
+                    ' height="80" width="80"><h3>Your Score: ' + player.pointsGrande +
+                    '</h3><p>High Score: ' + player.highScore + '</p>';
+
+                // The code below resets the player to the starting point and the scores
+                // and additional stone rows back to zero.
+                player.x = 200;
+                player.points = 0;
+                player.pointsGrande = 0;
+
+                // This line ensures that the player's start position is on the bottom-
+                // most row, which y value changes as more stone rows are added after
+                // every victorious crossing.
+                player.y = 386 + (player.points * 83);
+            }
+        });
+    }
+
+    // This is the function to check if player has collected a gem, and outlines the
+    // attendant consequences.
+    function checkPickups() {
+        allGems.forEach(function(gem) {
+            // Similar to the enemy collisions, I wanted to ensure that the player looked
+            // like he/she actually bumped up against a gem before "pickup."
+            if(gem.x + 20 > player.x && gem.x - 50 < player.x && gem.y - 65 === player.y) {
+                // After a gem is collected, it disappears for a while. The gem teleports
+                // to off-canvas left, and gradually makes its way back to the canvas.
+                gem.x = -1400;
+
+                // After a gem is collected, both bugs on that row disappear for a while.
+                // They teleport to off-canvas left, but appear back on canvas shortly
+                // before the gems reappear, to make the game slightly more challenging.
+                allEnemies[allGems.indexOf(gem) * 2].x = -900;
+                allEnemies[(allGems.indexOf(gem) * 2) + 1].x = -900;
+            }
+        });
+    }
 })(this);
+
+
+
